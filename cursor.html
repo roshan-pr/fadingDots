@@ -1,0 +1,43 @@
+<html>
+
+<head>
+  <title>cursor</title>
+  <style>
+    .page {
+      width: 100%;
+      height: 100%;
+      background-color: red;
+    }
+
+    .point {
+      width: 2px;
+      height: 2px;
+      background-color: black;
+    }
+  </style>
+  <script>
+
+    const generatePoint = ({ clientX, clientY }) =>
+      `<div class="point" style="position:fixed; top:${clientY}px; left:${clientX}px"></div>`
+
+    const draw = (event) => {
+      const lines = document.getElementById('box').innerHTML;
+      const point = generatePoint(event);
+      console.log(lines);
+
+      document.getElementById("box").innerHTML = lines + point;
+
+    }
+
+    window.onload = () =>
+      document.getElementById("box").addEventListener
+        ("mousemove", () => draw(event));
+
+  </script>
+</head>
+
+<body>
+  <div class="page" id="box"></div>
+</body>
+
+</html>
