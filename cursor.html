@@ -10,23 +10,34 @@
     }
 
     .point {
-      width: 2px;
-      height: 2px;
+      width: 10px;
+      height: 10px;
       background-color: black;
+      border-radius: 50%;
     }
   </style>
   <script>
 
-    const generatePoint = ({ clientX, clientY }) =>
-      `<div class="point" style="position:fixed; top:${clientY}px; left:${clientX}px"></div>`
+    const createElem = ({ clientX, clientY }) => {
+      const div = document.createElement('div');
+      div.setAttribute('style', `position:fixed; top:${clientY}px; left:${clientX}px`);
+      div.setAttribute('class', 'point');
+      return div;
+    }
 
     const draw = (event) => {
-      const lines = document.getElementById('box').innerHTML;
-      const point = generatePoint(event);
-      console.log(lines);
-
-      document.getElementById("box").innerHTML = lines + point;
-
+      const div = document.getElementById("box").appendChild(createElem(event));
+      let alpha = 1.0;
+      const deathRate = 0.09;
+      const interval = setInterval(() => {
+        div.style.backgroundColor = `rgba(0,0,0,${alpha})`;
+        alpha = alpha - deathRate;
+        if (alpha <= 0) {
+          const box = document.getElementById("box")
+          box.removeChild(div);
+          clearInterval(interval);
+        }
+      }, 100);
     }
 
     window.onload = () =>
